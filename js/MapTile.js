@@ -6,7 +6,7 @@ function MapTile(x, y, type)
     this.y = y;
     this.type = type;
     
-    if(this.type != "")
+    if(this.type != "nothing")
     {
         this.texture = PIXI.Texture.fromFrame(this.type + ".png");
     }

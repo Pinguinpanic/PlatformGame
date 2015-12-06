@@ -2,7 +2,7 @@
  * This is the guy, he inherits from Sprite.
  * @param x
  * @param y
- * @constructor
+ * @constructor 
  */
 Guy = function (x,y)
 {
@@ -26,19 +26,19 @@ Guy.prototype = Object.create(PIXI.Sprite.prototype);
  */
 Guy.prototype.update = function(mult)
 {
-    if(KeyHandler.getInstance().isPressed(68))
+    if(KeyHandler.getInstance().isPressed(KeyHandler.D) || KeyHandler.getInstance().isPressed(KeyHandler.RIGHT))
     {
         this.hspeed=100;
         this.scale={x:1,y:1};
     }
-    if(KeyHandler.getInstance().isPressed(65))
+    if(KeyHandler.getInstance().isPressed(KeyHandler.A) || KeyHandler.getInstance().isPressed(KeyHandler.LEFT))
     {
         this.hspeed=-100;
         this.scale={x:-1,y:1};
     }
-    if(KeyHandler.getInstance().isPressed(87))
+    if(KeyHandler.getInstance().isPressed(KeyHandler.W) || KeyHandler.getInstance().isPressed(KeyHandler.UP))
     {
-        if(this.y>=400)
+        if(this.checkOnWall(this.x, this.y))
         {
             this.vspeed=-350;
         }
@@ -48,6 +48,7 @@ Guy.prototype.update = function(mult)
     //Gravity
     this.vspeed+=mult*500;
 
+    // Collision checking
     if(!this.checkInWall(this.x+this.hspeed * mult,this.y))
     {
             this.x+=this.hspeed * mult;
@@ -83,12 +84,6 @@ Guy.prototype.update = function(mult)
             this.y+=steps-step;
             this.vspeed=0;
     }
-
-    if(this.y>400)
-    {
-        this.y=400;
-        this.vspeed=0;
-    }
 };
 
 Guy.prototype.checkInWall = function(x, y)
@@ -97,4 +92,9 @@ Guy.prototype.checkInWall = function(x, y)
             || main.currentMap.pixelInWall(x + this.width/2, y) 
             || main.currentMap.pixelInWall(x, y)
             || main.currentMap.pixelInWall(x, y - this.height);
+}
+
+Guy.prototype.checkOnWall = function(x, y)
+{
+    return main.currentMap.pixelInWall(x - this.width/2, y + 1) || main.currentMap.pixelInWall(x + this.width/2, y + 1);
 }

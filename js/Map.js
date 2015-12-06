@@ -1,5 +1,8 @@
-function Map(mapArray, scene)
+function Map(mapSizeX, mapSizeY, scene)
 {
+    this.mapSizeX = mapSizeX;
+    this.mapSizeY = mapSizeY;
+    
     instance=null;
     
     data = [];
@@ -16,7 +19,7 @@ function Map(mapArray, scene)
     };
     
     /**
-     * 
+     * Checks whether the given pixel is within a wall
      * @param {type} realX
      * @param {type} realY
      * @returns {Boolean}

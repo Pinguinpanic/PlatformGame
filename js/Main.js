@@ -24,9 +24,10 @@ Main.FPS=30;
  */
 Main.prototype.start=function()
 {
-    this.stage = new PIXI.Stage(0xFFFFFF,true);
+    this.stage = new PIXI.Stage(0x2b2446,true);
 
     this.renderer = PIXI.autoDetectRenderer(Main.SCREENWIDTH*2, Main.SCREENHEIGHT*2);
+    this.backgroundColor = 0x2b2446;
     document.body.appendChild(this.renderer.view);
 
     this.container = new PIXI.DisplayObjectContainer();

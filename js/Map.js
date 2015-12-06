@@ -1,8 +1,6 @@
-function Map(mapSizeX, mapSizeY, scene)
+function Map(mapArray, scene)
 {
-    this.mapSizeX = mapSizeX;
-    this.mapSizeY = mapSizeY;
-    
+
     instance=null;
     
     data = [];

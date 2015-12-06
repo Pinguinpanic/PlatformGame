@@ -41,12 +41,14 @@ function Map(mapArray, scene)
      */
     this.parseMap=function(mapArray)
     {
-        for(var x = 0; x < mapArray.length; x++)
+		this.mapSizeY = mapArray.length;
+		this.mapSizeX = mapArray[0].length;
+        for(var x = 0; x < this.mapSizeX; x++)
         {
             data[x] = [];
-            for(var y = 0; y < mapArray[x].length; y++)
+            for(var y = 0; y < this.mapSizeY; y++)
             {
-                data[x][y] = new MapTile(x * 32, y * 32, Map.encode(mapArray[x][y]));
+                data[x][y] = new MapTile(x * 32, y * 32, Map.encode(mapArray[y][x]));
                 scene.addDrawable(data[x][y]);
             }
         }

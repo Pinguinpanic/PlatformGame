@@ -19,6 +19,9 @@ Main.SCREENHEIGHT=800;
 
 Main.FPS=30;
 
+/**
+ * Start the Main thing.
+ */
 Main.prototype.start=function()
 {
     this.stage = new PIXI.Stage(0xFFFFFF,true);
@@ -33,6 +36,9 @@ Main.prototype.start=function()
     this.container.addChild(new ExampleScene());
 };
 
+/**
+ * Render everything on the current screen.
+ */
 Main.render = function()
 {
     var main=Main.getInstance();

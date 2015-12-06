@@ -1,3 +1,6 @@
+/**
+ * All general Math functions that are needed everywhere are added here.
+ */
 
 /**
  * Shuffle array array with a given intensity (Higher intensity means better shuffling but slower)

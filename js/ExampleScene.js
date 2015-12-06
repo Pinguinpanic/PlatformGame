@@ -10,6 +10,9 @@ ExampleScene = function()
 ExampleScene.constructor = ExampleScene;
 ExampleScene.prototype = Object.create(PIXI.DisplayObjectContainer.prototype);
 
+/**
+ * Load all the resources needed in this scene, calling doneLoading afterwards
+ */
 ExampleScene.prototype.loadResources = function()
 {
     //Set Assets to Load
@@ -24,6 +27,10 @@ ExampleScene.prototype.loadResources = function()
     loader.load();
 };
 
+/**
+ * Start the scene, this happens after it's done loading the resources so it doesn't try to draw stuff that isn't there
+ * yet.
+ */
 ExampleScene.prototype.doneLoading = function()
 {
     //Setup the scene very ugly here
@@ -33,12 +40,15 @@ ExampleScene.prototype.doneLoading = function()
     this.mainLoop();
 };
 
+/**
+ * Do the main loop bwoop bwoop.
+ */
 ExampleScene.prototype.mainLoop = function()
 {
     window.setTimeout(this.mainLoop.bind(this),1000/Main.FPS);
     var now=Date.now();
     var deltaTime=(now-this.prevTime);
-    //Make sure deltatime is at least 1 to prevent divide by zero errors
+    //Make sure deltatime is at least 1ms to prevent divide by zero errors
     deltaTime=Math.max(deltaTime,1);
     //Translate to seconds from ms
     deltaTime/=1000.0;
@@ -52,6 +62,11 @@ ExampleScene.prototype.mainLoop = function()
     Main.render();
 };
 
+/**
+ * Add a drawable object to this scene. Adding it to the DisplayObjectTree and to the update loop.
+ * @param drawable
+ * @returns {boolean}
+ */
 ExampleScene.prototype.addDrawable=function(drawable)
 {
     if(isIn(drawable,this.drawables))

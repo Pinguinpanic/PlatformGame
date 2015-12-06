@@ -11,6 +11,16 @@ function KeyHandler()
     this.lastKey=null;
 }
 
+KeyHandler.W = 87;
+KeyHandler.A = 65;
+KeyHandler.S = 83;
+KeyHandler.D = 68;
+
+KeyHandler.UP = 38;
+KeyHandler.DOWN = 40;
+KeyHandler.LEFT = 37;
+KeyHandler.RIGHT = 39;
+
 KeyHandler.instance=null;
 
 KeyHandler.getInstance=function()

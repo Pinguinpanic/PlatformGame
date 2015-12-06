@@ -35,8 +35,9 @@ ExampleScene.prototype.loadResources = function()
 ExampleScene.prototype.doneLoading = function()
 {
     //Setup the scene very ugly here
-    this.addDrawable(new Guy(50,100));
     main.currentMap = new Map(ExampleScene.map, this);
+	spawn = main.currentMap.getSpawnPoint();
+    this.addDrawable(new Guy(spawn[0] * 32 + 16, (spawn[1] + 1) * 32));
 
     this.prevTime=Date.now();
     this.mainLoop();

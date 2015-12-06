@@ -1,11 +1,5 @@
 function Map(mapArray, scene)
 {
-
-    instance=null;
-    
-    data = [];
-    //MORE CODE AFTER LOCAL INITIALIZATION!!!!!!!!!!!!!!!!!!!!!!!!
-
     this.getMapTile = function(x, y)
     {
         return data[x][y];
@@ -49,10 +43,35 @@ function Map(mapArray, scene)
             for(var y = 0; y < this.mapSizeY; y++)
             {
                 data[x][y] = new MapTile(x * 32, y * 32, Map.encode(mapArray[y][x]));
+				if(mapArray[y][x] == 'S')
+				{
+					if(spawnPoint != null)
+					{
+						console.error("Spawnpoint already set!");
+						continue;
+					}
+					
+					spawnPoint = [x, y];
+				}
+				
                 scene.addDrawable(data[x][y]);
             }
         }
+		
+		if(spawnPoint == null)
+		{
+			console.error("Spawnpoint not set!");
+		}
     };
+	
+	this.getSpawnPoint = function()
+	{
+		return spawnPoint;
+	}
+	
+	// INITIALIZATION
+    data = [];
+	spawnPoint = null;
 
     this.parseMap(mapArray);
 }
@@ -63,6 +82,8 @@ Map.encode = function(char)
     {
         case 'X':
             return "wall";
+		case 'S':
+//			return "spawn";
     }
     return "nothing";
 };

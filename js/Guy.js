@@ -48,6 +48,7 @@ Guy.prototype.update = function(mult)
     //Gravity
     this.vspeed+=mult*500;
 
+    // Collision checking
     if(!this.checkInWall(this.x+this.hspeed * mult,this.y))
     {
             this.x+=this.hspeed * mult;
@@ -82,12 +83,6 @@ Guy.prototype.update = function(mult)
             }
             this.y+=steps-step;
             this.vspeed=0;
-    }
-
-    if(this.y>400)
-    {
-        this.y=400;
-        this.vspeed=0;
     }
 };
 

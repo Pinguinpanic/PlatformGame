@@ -90,8 +90,8 @@ Guy.prototype.checkInWall = function(x, y)
 {
     return main.currentMap.pixelInWall(x - this.width/2, y) 
             || main.currentMap.pixelInWall(x + this.width/2, y) 
-            || main.currentMap.pixelInWall(x, y)
-            || main.currentMap.pixelInWall(x, y - this.height);
+            || main.currentMap.pixelInWall(x - this.width/2, y - this.height) 
+            || main.currentMap.pixelInWall(x + this.width/2, y - this.height);
 }
 
 Guy.prototype.checkOnWall = function(x, y)

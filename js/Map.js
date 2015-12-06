@@ -1,45 +1,19 @@
-function Map(mapSizeX, mapSizeY, scene)
+function Map(mapArray, scene)
 {
-    this.mapSizeX = mapSizeX;
-    this.mapSizeY = mapSizeY;
-    
     instance=null;
     
     data = [];
-    for(x = 0; x <= this.mapSizeX - 1; x++)
-    {
-        data[x] = [];
-        for(y = 0; y <= this.mapSizeY - 1; y++)
-        {
-            if(x == 0 || x == this.mapSizeX - 1 || y == 0 || y == this.mapSizeY - 1)
-            {
-                data[x][y] = new MapTile(x * 32, y * 32, "wall");
-            }
-            else
-            {
-                data[x][y] = new MapTile(x * 32, y * 32, "");
-            }
-            
-            scene.addDrawable(data[x][y]);
-        }
-    }
-    
+    //MORE CODE AFTER LOCAL INITIALIZATION!!!!!!!!!!!!!!!!!!!!!!!!
+
     this.getMapTile = function(x, y)
     {
         return data[x][y];
-    }
-    
+    };
+
     this.checkWithinBounds = function(x, y)
     {
-        if(x < 0 || x >= this.mapSizeX || y < 0 || y >= this.mapSizeY)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+        return !(x < 0 || x >= this.mapSizeX || y < 0 || y >= this.mapSizeY);
+    };
     
     /**
      * 
@@ -57,13 +31,35 @@ function Map(mapSizeX, mapSizeY, scene)
            return true;
        }
        
-       if(data[mapX][mapY].type == "wall")
-       {
-           return true;
-       }
-       else
-       {
-           return false;
-       }
-    }
+       return data[mapX][mapY].type == "wall";
+    };
+
+    /**
+     * Prase an array of a map
+     * @param mapArray
+     */
+    this.parseMap=function(mapArray)
+    {
+        for(var x = 0; x < mapArray.length; x++)
+        {
+            data[x] = [];
+            for(var y = 0; y < mapArray[x].length; y++)
+            {
+                data[x][y] = new MapTile(x * 32, y * 32, Map.encode(mapArray[x][y]));
+                scene.addDrawable(data[x][y]);
+            }
+        }
+    };
+
+    this.parseMap(mapArray);
 }
+
+Map.encode = function(char)
+{
+    switch(char)
+    {
+        case 'X':
+            return "wall";
+    }
+    return "nothing";
+};

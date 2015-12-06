@@ -23,10 +23,20 @@ FileHandling.loadFile = function(fileName,callBack)
     file.send(null);
 };
 
-FileHandling.loadMap=function(fileName)
+FileHandling.loadMap=function(fileName,callBack)
 {
     FileHandling.loadFile("maps/"+fileName+".map",function(map){
         //PARSE MAP HERE
-        console.log(map);
+        var lines = map.split("\n");
+        var data=[];
+        for(var l=0;l<lines.length-1;l++){
+            var line=lines[l];
+            data[l]=[];
+            for(var i=0;i<line.length;i++)
+            {
+                data[l][i]=line[i];
+            }
+        }
+        callBack(data);
     });
 };

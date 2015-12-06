@@ -4,6 +4,7 @@ ExampleScene = function()
 
     this.drawables=[];
 
+    FileHandling.loadMap("fun",function(map) {ExampleScene.map=map});
     this.loadResources();
 };
 
@@ -35,7 +36,7 @@ ExampleScene.prototype.doneLoading = function()
 {
     //Setup the scene very ugly here
     this.addDrawable(new Guy(50,100));
-    main.currentMap = new Map(10, 10, this);
+    main.currentMap = new Map(ExampleScene.map, this);
 
     this.prevTime=Date.now();
     this.mainLoop();

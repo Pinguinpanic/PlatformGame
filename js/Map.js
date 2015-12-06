@@ -82,8 +82,8 @@ Map.encode = function(char)
     {
         case 'X':
             return "wall";
-		case 'S':
-//			return "spawn";
+		case 'P':
+			return "spike";
     }
     return "nothing";
 };

@@ -14,8 +14,8 @@ Main.getInstance = function()
 };
 
 
-Main.SCREENWIDTH=800;
-Main.SCREENHEIGHT=800;
+Main.SCREENWIDTH=640;
+Main.SCREENHEIGHT=480;
 
 Main.FPS=30;
 
@@ -26,10 +26,11 @@ Main.prototype.start=function()
 {
     this.stage = new PIXI.Stage(0xFFFFFF,true);
 
-    this.renderer = PIXI.autoDetectRenderer(Main.SCREENWIDTH, Main.SCREENHEIGHT);
+    this.renderer = PIXI.autoDetectRenderer(Main.SCREENWIDTH*2, Main.SCREENHEIGHT*2);
     document.body.appendChild(this.renderer.view);
 
     this.container = new PIXI.DisplayObjectContainer();
+    this.container.scale=new PIXI.Point(2,2);
     this.stage.addChild(this.container);
 
     //Ugly Add of scene

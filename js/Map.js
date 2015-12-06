@@ -1,3 +1,10 @@
+/**
+ * Map object constructor
+ * @param {type} mapSizeX
+ * @param {type} mapSizeY
+ * @param {type} scene The scene in which this map will be displayed
+ * @returns {Map}
+ */
 function Map(mapSizeX, mapSizeY, scene)
 {
     this.mapSizeX = mapSizeX;
@@ -5,6 +12,7 @@ function Map(mapSizeX, mapSizeY, scene)
     
     instance=null;
     
+    // Initialize the map
     data = [];
     for(x = 0; x <= this.mapSizeX - 1; x++)
     {
@@ -24,11 +32,23 @@ function Map(mapSizeX, mapSizeY, scene)
         }
     }
     
+    /**
+     * 
+     * @param {type} x
+     * @param {type} y
+     * @returns {MapTile}
+     */
     this.getMapTile = function(x, y)
     {
         return data[x][y];
     }
     
+    /**
+     * Checks whether the given x and y are witin the bounds of the map grid
+     * @param {type} x
+     * @param {type} y
+     * @returns {Boolean}
+     */
     this.checkWithinBounds = function(x, y)
     {
         if(x < 0 || x >= this.mapSizeX || y < 0 || y >= this.mapSizeY)
@@ -42,7 +62,7 @@ function Map(mapSizeX, mapSizeY, scene)
     }
     
     /**
-     * 
+     * Checks whether the given pixel is within a wall
      * @param {type} realX
      * @param {type} realY
      * @returns {Boolean}

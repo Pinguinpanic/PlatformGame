@@ -34,7 +34,8 @@ ExampleScene.prototype.loadResources = function()
 ExampleScene.prototype.doneLoading = function()
 {
     //Setup the scene very ugly here
-    this.addDrawable(new Guy(50,50));
+    this.addDrawable(new Guy(50,100));
+    main.currentMap = new Map(10, 10, this);
 
     this.prevTime=Date.now();
     this.mainLoop();

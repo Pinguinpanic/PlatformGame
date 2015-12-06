@@ -27,15 +27,33 @@ Guy.prototype.update = function(mult)
 {
     if(KeyHandler.getInstance().isPressed(68))
     {
-        this.hspeed=4
+        this.hspeed=100;
         this.scale={x:1,y:1};
     }
     if(KeyHandler.getInstance().isPressed(65))
     {
-        this.hspeed=-4;
+        this.hspeed=-100;
         this.scale={x:-1,y:1};
     }
-    this.hspeed*=Math.pow(.5,mult);
-    this.x+=this.hspeed;
-    this.y+=this.vspeed;
+    if(KeyHandler.getInstance().isPressed(87))
+    {
+        if(this.y>=400)
+        {
+            this.vspeed=-350;
+        }
+    }
+    //Friction
+    this.hspeed*=Math.pow(.1,mult);
+    //Gravity
+    this.vspeed+=mult*500;
+
+    //Actual movement
+    this.x+=this.hspeed*mult;
+    this.y+=this.vspeed*mult;
+
+    if(this.y>400)
+    {
+        this.y=400;
+        this.vspeed=0;
+    }
 };

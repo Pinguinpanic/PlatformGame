@@ -2,7 +2,7 @@
  * This is the guy, he inherits from Sprite.
  * @param x
  * @param y
- * @constructor
+ * @constructor 
  */
 Guy = function (x,y)
 {
@@ -38,7 +38,7 @@ Guy.prototype.update = function(mult)
     }
     if(KeyHandler.getInstance().isPressed(87))
     {
-        if(this.y>=400)
+        if(this.checkOnWall(this.x, this.y))
         {
             this.vspeed=-350;
         }
@@ -97,4 +97,9 @@ Guy.prototype.checkInWall = function(x, y)
             || main.currentMap.pixelInWall(x + this.width/2, y) 
             || main.currentMap.pixelInWall(x, y)
             || main.currentMap.pixelInWall(x, y - this.height);
+}
+
+Guy.prototype.checkOnWall = function(x, y)
+{
+    return main.currentMap.pixelInWall(x - this.width/2, y + 1) || main.currentMap.pixelInWall(x + this.width/2, y + 1);
 }

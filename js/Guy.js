@@ -26,17 +26,17 @@ Guy.prototype = Object.create(PIXI.Sprite.prototype);
  */
 Guy.prototype.update = function(mult)
 {
-    if(KeyHandler.getInstance().isPressed(68))
+    if(KeyHandler.getInstance().isPressed(KeyHandler.D) || KeyHandler.getInstance().isPressed(KeyHandler.RIGHT))
     {
         this.hspeed=100;
         this.scale={x:1,y:1};
     }
-    if(KeyHandler.getInstance().isPressed(65))
+    if(KeyHandler.getInstance().isPressed(KeyHandler.A) || KeyHandler.getInstance().isPressed(KeyHandler.LEFT))
     {
         this.hspeed=-100;
         this.scale={x:-1,y:1};
     }
-    if(KeyHandler.getInstance().isPressed(87))
+    if(KeyHandler.getInstance().isPressed(KeyHandler.W) || KeyHandler.getInstance().isPressed(KeyHandler.UP))
     {
         if(this.checkOnWall(this.x, this.y))
         {

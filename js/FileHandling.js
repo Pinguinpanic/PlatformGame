@@ -29,10 +29,28 @@ FileHandling.loadMap=function(fileName,callBack)
         //PARSE MAP HERE
         var lines = map.split("\n");
         var data=[];
-        for(var l=0;l<lines.length-1;l++){
-            var line=lines[l];
+		
+		data.mapSize = lines[0].split(",");
+		data.mapSize[0] = parseInt(data.mapSize[0]);
+		data.mapSize[1] = parseInt(data.mapSize[1]);
+		
+		if(lines.length != data.mapSize[1] + 1)
+		{
+			console.error("Y dimension of map '" + fileName + "' not correct (Indicated: " + (data.mapSize[1] + 1) + ", actual: " + lines.length + ")");
+			return;
+		}
+		
+        for(var l=0;l<data.mapSize[1];l++){
+            var line=lines[l + 1];
+			
+			if(line.length != data.mapSize[0])
+			{
+				console.error("X dimension of map '" + fileName + "' not correct (line " + l + ")");
+				return;
+			}
+			
             data[l]=[];
-            for(var i=0;i<line.length;i++)
+            for(var i=0;i<data.mapSize[0];i++)
             {
                 data[l][i]=line[i];
             }

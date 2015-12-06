@@ -31,19 +31,19 @@ function Map(mapArray, scene)
 
     /**
      * Prase an array of a map
-     * @param mapArray
+     * @param mapData
      */
-    this.parseMap=function(mapArray)
+    this.parseMap=function(mapData)
     {
-		this.mapSizeY = mapArray.length;
-		this.mapSizeX = mapArray[0].length;
+		this.mapSizeY = mapData.mapSize[1];
+		this.mapSizeX = mapData.mapSize[0];
         for(var x = 0; x < this.mapSizeX; x++)
         {
             data[x] = [];
             for(var y = 0; y < this.mapSizeY; y++)
             {
-                data[x][y] = new MapTile(x * 32, y * 32, Map.encode(mapArray[y][x]));
-				if(mapArray[y][x] == 'S')
+                data[x][y] = new MapTile(x * 32, y * 32, Map.encode(mapData[y][x]));
+				if(mapData[y][x] == 'S')
 				{
 					if(spawnPoint != null)
 					{

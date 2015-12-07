@@ -28,8 +28,8 @@ function Map(mapArray, scene)
        
        return data[mapX][mapY].type == "wall";
     };
-
-    /**
+	
+	/**
      * Prase an array of a map
      * @param mapData
      */
@@ -84,6 +84,14 @@ Map.encode = function(char)
             return "wall";
 		case 'P':
 			return "spike";
+		case 'F':
+			return "sand";
+		case 'S':
+			return "nothing"; //return "spawn" <- when texture has been added
+		case '.':
+			return "nothing";
+		default:
+			console.warn("Unknown character encountered in map: " + char);
+			return "nothing";
     }
-    return "nothing";
 };

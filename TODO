@@ -1,0 +1,28 @@
+--- GAME ---
+Spikes
+Player death
+Finish
+Double jump
+Dash
+Jump/dash counter
+Porting physics (Bob)
+Colors
+Sounds (Bob)
+Camera (Bob)
+World tilting
+Player ghost
+
+--- CONTENT ---
+Levels
+
+--- FEATURES ---
+Simple menu's
+    Start menu
+    Level menu
+    Settings menu
+
+--- INFRASTRUCTURE ---
+Score server
+
+--- EXTRA ---
+Level editor

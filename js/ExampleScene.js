@@ -37,10 +37,29 @@ ExampleScene.prototype.doneLoading = function()
     //Setup the scene very ugly here
     main.currentMap = new Map(ExampleScene.map, this);
 	spawn = main.currentMap.getSpawnPoint();
-    this.addDrawable(new Guy(spawn[0] * 32 + 16, (spawn[1] + 1) * 32));
+	this.guy = new Guy(spawn[0] * 32 + 16, (spawn[1] + 1) * 32, this.guyCallback.bind(this));
+    this.addDrawable(this.guy);
 
     this.prevTime=Date.now();
     this.mainLoop();
+};
+
+ExampleScene.prototype.guyCallback = function(eventType, x, y)
+{
+	switch(eventType)
+	{
+		case "death":
+			alert("you died loser");
+			this.guy.resetToSpawn();
+			break;
+		case "finish":
+			alert("look at you being all awesome and shit, nice!");
+			this.guy.resetToSpawn();
+			break;
+		default:
+			console.warn("Unhandled event occured: '" + eventType + "'");
+			break;
+	}
 };
 
 /**

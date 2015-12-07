@@ -4,11 +4,14 @@
  * @param y
  * @constructor 
  */
-Guy = function (x,y)
+Guy = function (spawnX,spawnY, callback)
 {
     PIXI.Sprite.call(this);
-    this.x=x;
-    this.y=y;
+	this.spawnX = spawnX;
+	this.spawnY = spawnY;
+    this.x=spawnX;
+    this.y=spawnY;
+	this.callback = callback;
     
     this.hspeed=0.0;
     this.vspeed=0.0;
@@ -26,6 +29,17 @@ Guy.prototype = Object.create(PIXI.Sprite.prototype);
  */
 Guy.prototype.update = function(mult)
 {
+	// Check whether we're dead or finish.
+	if(this.checkDeadly(this.x, this.y))
+	{
+		this.callback("death", this.x, this.y);
+	}
+	
+	if(this.checkFinish(this.x, this.y))
+	{
+		this.callback("finish", this.x, this.y);
+	}
+	
     if(KeyHandler.getInstance().isPressed(KeyHandler.D) || KeyHandler.getInstance().isPressed(KeyHandler.RIGHT))
     {
         this.hspeed=100;
@@ -85,6 +99,31 @@ Guy.prototype.update = function(mult)
             this.vspeed=0;
     }
 };
+
+Guy.prototype.resetToSpawn = function()
+{
+	this.x = this.spawnX;
+	this.y = this.spawnY;
+	
+	this.hspeed = 0;
+	this.vspeed = 0;
+}
+
+Guy.prototype.checkDeadly = function(x, y)
+{
+	return main.currentMap.pixelDeadly(x - this.width/2, y) 
+            || main.currentMap.pixelDeadly(x + this.width/2, y) 
+            || main.currentMap.pixelDeadly(x - this.width/2, y - this.height) 
+            || main.currentMap.pixelDeadly(x + this.width/2, y - this.height);
+}
+
+Guy.prototype.checkFinish = function(x, y)
+{
+	return main.currentMap.pixelFinish(x - this.width/2, y) 
+            || main.currentMap.pixelFinish(x + this.width/2, y) 
+            || main.currentMap.pixelFinish(x - this.width/2, y - this.height) 
+            || main.currentMap.pixelFinish(x + this.width/2, y - this.height);
+}
 
 Guy.prototype.checkInWall = function(x, y)
 {

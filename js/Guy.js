@@ -22,6 +22,8 @@ Guy = function (spawnX,spawnY, callback)
 Guy.constructor = Guy;
 Guy.prototype = Object.create(PIXI.Sprite.prototype);
 
+Guy.WIDTH = 10;
+Guy.HEIGHT = 18;
 
 /**
  * The Guy's update loop.
@@ -111,29 +113,29 @@ Guy.prototype.resetToSpawn = function()
 
 Guy.prototype.checkDeadly = function(x, y)
 {
-	return main.currentMap.pixelDeadly(x - this.width/2, y) 
-            || main.currentMap.pixelDeadly(x + this.width/2, y) 
-            || main.currentMap.pixelDeadly(x - this.width/2, y - this.height) 
-            || main.currentMap.pixelDeadly(x + this.width/2, y - this.height);
+	return main.currentMap.pixelDeadly(x - Guy.WIDTH/2, y) 
+            || main.currentMap.pixelDeadly(x + Guy.WIDTH/2, y) 
+            || main.currentMap.pixelDeadly(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
+            || main.currentMap.pixelDeadly(x + Guy.WIDTH/2, y - Guy.HEIGHT);
 }
 
 Guy.prototype.checkFinish = function(x, y)
 {
-	return main.currentMap.pixelFinish(x - this.width/2, y) 
-            || main.currentMap.pixelFinish(x + this.width/2, y) 
-            || main.currentMap.pixelFinish(x - this.width/2, y - this.height) 
-            || main.currentMap.pixelFinish(x + this.width/2, y - this.height);
+	return main.currentMap.pixelFinish(x - Guy.WIDTH/2, y) 
+            || main.currentMap.pixelFinish(x + Guy.WIDTH/2, y) 
+            || main.currentMap.pixelFinish(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
+            || main.currentMap.pixelFinish(x + Guy.WIDTH/2, y - Guy.HEIGHT);
 }
 
 Guy.prototype.checkInWall = function(x, y)
 {
-    return main.currentMap.pixelInWall(x - this.width/2, y) 
-            || main.currentMap.pixelInWall(x + this.width/2, y) 
-            || main.currentMap.pixelInWall(x - this.width/2, y - this.height) 
-            || main.currentMap.pixelInWall(x + this.width/2, y - this.height);
+    return main.currentMap.pixelInWall(x - Guy.WIDTH/2, y) 
+            || main.currentMap.pixelInWall(x + Guy.WIDTH/2, y) 
+            || main.currentMap.pixelInWall(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
+            || main.currentMap.pixelInWall(x + Guy.WIDTH/2, y - Guy.HEIGHT);
 }
 
 Guy.prototype.checkOnWall = function(x, y)
 {
-    return main.currentMap.pixelInWall(x - this.width/2, y + 1) || main.currentMap.pixelInWall(x + this.width/2, y + 1);
+    return main.currentMap.pixelInWall(x - Guy.WIDTH/2, y + 1) || main.currentMap.pixelInWall(x + Guy.WIDTH/2, y + 1);
 }

@@ -49,12 +49,12 @@ ExampleScene.prototype.guyCallback = function(eventType, x, y)
 	switch(eventType)
 	{
 		case "death":
-			alert("you died loser");
-			this.guy.resetToSpawn();
+			console.log("dead");
+//			this.guy.respawn();
 			break;
 		case "finish":
 			alert("look at you being all awesome and shit, nice!");
-			this.guy.resetToSpawn();
+//			this.guy.respawn();
 			break;
 		default:
 			console.warn("Unhandled event occured: '" + eventType + "'");

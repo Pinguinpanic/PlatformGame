@@ -12,6 +12,8 @@ Guy = function (spawnX,spawnY, callback)
     this.x=spawnX;
     this.y=spawnY;
 	this.callback = callback;
+	
+	this.dead = false;
     
     this.hspeed=0.0;
     this.vspeed=0.0;
@@ -32,8 +34,9 @@ Guy.HEIGHT = 18;
 Guy.prototype.update = function(mult)
 {
 	// Check whether we're dead or finish.
-	if(this.checkDeadly(this.x, this.y))
+	if(!this.dead && this.checkDeadly(this.x, this.y))
 	{
+		this.dead = true;
 		this.callback("death", this.x, this.y);
 	}
 	
@@ -42,23 +45,27 @@ Guy.prototype.update = function(mult)
 		this.callback("finish", this.x, this.y);
 	}
 	
-    if(KeyHandler.getInstance().isPressed(KeyHandler.D) || KeyHandler.getInstance().isPressed(KeyHandler.RIGHT))
-    {
-        this.hspeed=100;
-        this.scale={x:1,y:1};
-    }
-    if(KeyHandler.getInstance().isPressed(KeyHandler.A) || KeyHandler.getInstance().isPressed(KeyHandler.LEFT))
-    {
-        this.hspeed=-100;
-        this.scale={x:-1,y:1};
-    }
-    if(KeyHandler.getInstance().isPressed(KeyHandler.W) || KeyHandler.getInstance().isPressed(KeyHandler.UP))
-    {
-        if(this.checkOnWall(this.x, this.y))
-        {
-            this.vspeed=-350;
-        }
-    }
+	if(!this.dead)
+	{
+		if(KeyHandler.getInstance().isPressed(KeyHandler.D) || KeyHandler.getInstance().isPressed(KeyHandler.RIGHT))
+		{
+			this.hspeed=100;
+			this.scale={x:1,y:1};
+		}
+		if(KeyHandler.getInstance().isPressed(KeyHandler.A) || KeyHandler.getInstance().isPressed(KeyHandler.LEFT))
+		{
+			this.hspeed=-100;
+			this.scale={x:-1,y:1};
+		}
+		if(KeyHandler.getInstance().isPressed(KeyHandler.W) || KeyHandler.getInstance().isPressed(KeyHandler.UP))
+		{
+			if(this.checkOnWall(this.x, this.y))
+			{
+				this.vspeed=-350;
+			}
+		}
+	}
+	
     //Friction
     this.hspeed*=Math.pow(.1,mult);
     //Gravity
@@ -102,13 +109,15 @@ Guy.prototype.update = function(mult)
     }
 };
 
-Guy.prototype.resetToSpawn = function()
+Guy.prototype.respawn = function()
 {
 	this.x = this.spawnX;
 	this.y = this.spawnY;
 	
 	this.hspeed = 0;
 	this.vspeed = 0;
+	
+	this.dead = false;
 }
 
 Guy.prototype.checkDeadly = function(x, y)

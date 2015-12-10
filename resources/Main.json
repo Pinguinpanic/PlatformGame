@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
 	"sourceSize": {"w":24,"h":24}
 },
-"sand.png":
+"finish.png":
 {
 	"frame": {"x":94,"y":2,"w":32,"h":32},
 	"rotated": false,

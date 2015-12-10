@@ -4,11 +4,16 @@
  * @param y
  * @constructor 
  */
-Guy = function (x,y)
+Guy = function (spawnX,spawnY, callback)
 {
     PIXI.Sprite.call(this);
-    this.x=x;
-    this.y=y;
+	this.spawnX = spawnX;
+	this.spawnY = spawnY;
+    this.x=spawnX;
+    this.y=spawnY;
+	this.callback = callback;
+	
+	this.dead = false;
     
     this.hspeed=0.0;
     this.vspeed=0.0;
@@ -19,6 +24,8 @@ Guy = function (x,y)
 Guy.constructor = Guy;
 Guy.prototype = Object.create(PIXI.Sprite.prototype);
 
+Guy.WIDTH = 10;
+Guy.HEIGHT = 18;
 
 /**
  * The Guy's update loop.
@@ -26,23 +33,39 @@ Guy.prototype = Object.create(PIXI.Sprite.prototype);
  */
 Guy.prototype.update = function(mult)
 {
-    if(KeyHandler.getInstance().isPressed(KeyHandler.D) || KeyHandler.getInstance().isPressed(KeyHandler.RIGHT))
-    {
-        this.hspeed=100;
-        this.scale={x:1,y:1};
-    }
-    if(KeyHandler.getInstance().isPressed(KeyHandler.A) || KeyHandler.getInstance().isPressed(KeyHandler.LEFT))
-    {
-        this.hspeed=-100;
-        this.scale={x:-1,y:1};
-    }
-    if(KeyHandler.getInstance().isPressed(KeyHandler.W) || KeyHandler.getInstance().isPressed(KeyHandler.UP))
-    {
-        if(this.checkOnWall(this.x, this.y))
-        {
-            this.vspeed=-350;
-        }
-    }
+	// Check whether we're dead or finish.
+	if(!this.dead && this.checkDeadly(this.x, this.y))
+	{
+		this.dead = true;
+		this.callback("death", this.x, this.y);
+	}
+	
+	if(this.checkFinish(this.x, this.y))
+	{
+		this.callback("finish", this.x, this.y);
+	}
+	
+	if(!this.dead)
+	{
+		if(KeyHandler.getInstance().isPressed(KeyHandler.D) || KeyHandler.getInstance().isPressed(KeyHandler.RIGHT))
+		{
+			this.hspeed=100;
+			this.scale={x:1,y:1};
+		}
+		if(KeyHandler.getInstance().isPressed(KeyHandler.A) || KeyHandler.getInstance().isPressed(KeyHandler.LEFT))
+		{
+			this.hspeed=-100;
+			this.scale={x:-1,y:1};
+		}
+		if(KeyHandler.getInstance().isPressed(KeyHandler.W) || KeyHandler.getInstance().isPressed(KeyHandler.UP))
+		{
+			if(this.checkOnWall(this.x, this.y))
+			{
+				this.vspeed=-350;
+			}
+		}
+	}
+	
     //Friction
     this.hspeed*=Math.pow(.1,mult);
     //Gravity
@@ -86,15 +109,42 @@ Guy.prototype.update = function(mult)
     }
 };
 
+Guy.prototype.respawn = function()
+{
+	this.x = this.spawnX;
+	this.y = this.spawnY;
+	
+	this.hspeed = 0;
+	this.vspeed = 0;
+	
+	this.dead = false;
+}
+
+Guy.prototype.checkDeadly = function(x, y)
+{
+	return main.currentMap.pixelDeadly(x - Guy.WIDTH/2, y) 
+            || main.currentMap.pixelDeadly(x + Guy.WIDTH/2, y) 
+            || main.currentMap.pixelDeadly(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
+            || main.currentMap.pixelDeadly(x + Guy.WIDTH/2, y - Guy.HEIGHT);
+}
+
+Guy.prototype.checkFinish = function(x, y)
+{
+	return main.currentMap.pixelFinish(x - Guy.WIDTH/2, y) 
+            || main.currentMap.pixelFinish(x + Guy.WIDTH/2, y) 
+            || main.currentMap.pixelFinish(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
+            || main.currentMap.pixelFinish(x + Guy.WIDTH/2, y - Guy.HEIGHT);
+}
+
 Guy.prototype.checkInWall = function(x, y)
 {
-    return main.currentMap.pixelInWall(x - this.width/2, y) 
-            || main.currentMap.pixelInWall(x + this.width/2, y) 
-            || main.currentMap.pixelInWall(x - this.width/2, y - this.height) 
-            || main.currentMap.pixelInWall(x + this.width/2, y - this.height);
+    return main.currentMap.pixelInWall(x - Guy.WIDTH/2, y) 
+            || main.currentMap.pixelInWall(x + Guy.WIDTH/2, y) 
+            || main.currentMap.pixelInWall(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
+            || main.currentMap.pixelInWall(x + Guy.WIDTH/2, y - Guy.HEIGHT);
 }
 
 Guy.prototype.checkOnWall = function(x, y)
 {
-    return main.currentMap.pixelInWall(x - this.width/2, y + 1) || main.currentMap.pixelInWall(x + this.width/2, y + 1);
+    return main.currentMap.pixelInWall(x - Guy.WIDTH/2, y + 1) || main.currentMap.pixelInWall(x + Guy.WIDTH/2, y + 1);
 }

@@ -28,6 +28,46 @@ function Map(mapArray, scene)
        
        return data[mapX][mapY].type == "wall";
     };
+	
+	/**
+	 * Checks whether the given pixel is deadly, i.e. whether you are killed when you are at this point.
+	 * Currently only checks for spike, later it might also check for, for instance, being too low or other deadly objects
+	 * @param {type} realX
+	 * @param {type} realY
+	 * @returns {Boolean}
+	 */
+	this.pixelDeadly = function(realX, realY)
+	{
+       mapX = Math.floor(realX / 32);
+       mapY = Math.floor(realY / 32);
+       
+       if(!this.checkWithinBounds(mapX, mapY))
+       {
+           return true;
+       }
+       
+       return data[mapX][mapY].type == "spike";
+	}
+	
+	/**
+	 * Checks whether the given pixel is the finish
+	 * Currently only checks for spike, later it might also check for, for instance, being too low or other deadly objects
+	 * @param {type} realX
+	 * @param {type} realY
+	 * @returns {Boolean}
+	 */
+	this.pixelFinish = function(realX, realY)
+	{
+       mapX = Math.floor(realX / 32);
+       mapY = Math.floor(realY / 32);
+       
+       if(!this.checkWithinBounds(mapX, mapY))
+       {
+           return true;
+       }
+       
+       return data[mapX][mapY].type == "finish";
+	}
 
     /**
      * Prase an array of a map
@@ -82,8 +122,16 @@ Map.encode = function(char)
     {
         case 'X':
             return "wall";
+		case 'P':
+			return "spike";
+		case 'F':
+			return "finish";
 		case 'S':
-//			return "spawn";
+			return "nothing"; //return "spawn" <- when texture has been added
+		case '.':
+			return "nothing";
+		default:
+			console.warn("Unknown character encountered in map: " + char);
+			return "nothing";
     }
-    return "nothing";
 };

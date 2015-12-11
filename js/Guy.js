@@ -18,7 +18,9 @@ Guy = function (spawnX,spawnY, callback)
 	this.doubleJumped = false;
 	this.dashState = false;
 	this.dashDirection = "";
-    
+	
+	this.count = 0;
+	
     this.hspeed=0.0;
     this.vspeed=0.0;
 
@@ -71,6 +73,7 @@ Guy.prototype.update = function(mult)
 				this.dashDirection = "";
 				this.hspeed = 2500;
 				this.dashState = 3;
+				this.counter++;
 			}
 			else if(this.dashState == 3)
 			{
@@ -97,6 +100,7 @@ Guy.prototype.update = function(mult)
 				this.dashDirection = "";
 				this.hspeed = -2500;
 				this.dashState = 3;
+				this.counter++;
 			}
 			else if(this.dashState == 3)
 			{
@@ -129,6 +133,7 @@ Guy.prototype.update = function(mult)
 			{
 				this.vspeed=-350;
 				this.doubleJumped = true;
+				this.counter++;
 			}
 		}
 		
@@ -146,38 +151,38 @@ Guy.prototype.update = function(mult)
     // Collision checking
     if(!this.checkInWall(this.x+this.hspeed * mult,this.y))
     {
-            this.x+=this.hspeed * mult;
+        this.x+=this.hspeed * mult;
     }
     else
     {
-            var step;
-            var steps;
-            step=sign(this.hspeed);
-            steps=0;
-            while(!this.checkInWall(this.x+steps,this.y))
-            {
-                    steps+=step;
-            }
-            this.x+=steps-step;
-            this.hspeed=0;
+		var step;
+		var steps;
+		step=sign(this.hspeed);
+		steps=0;
+		while(!this.checkInWall(this.x+steps,this.y))
+		{
+				steps+=step;
+		}
+		this.x+=steps-step;
+		this.hspeed=0;
     }
     
     if(!this.checkInWall(this.x,this.y + this.vspeed * mult))
     {
-            this.y+=this.vspeed * mult;
+		this.y+=this.vspeed * mult;
     }
     else
     {
-            var step;
-            var steps;
-            step=sign(this.vspeed);
-            steps=0;
-            while(!this.checkInWall(this.x,this.y+steps))
-            {
-                    steps+=step;
-            }
-            this.y+=steps-step;
-            this.vspeed=0;
+		var step;
+		var steps;
+		step=sign(this.vspeed);
+		steps=0;
+		while(!this.checkInWall(this.x,this.y+steps))
+		{
+				steps+=step;
+		}
+		this.y+=steps-step;
+		this.vspeed=0;
     }
 };
 
@@ -195,25 +200,25 @@ Guy.prototype.respawn = function()
 Guy.prototype.checkDeadly = function(x, y)
 {
 	return main.currentMap.pixelDeadly(x - Guy.WIDTH/2, y) 
-            || main.currentMap.pixelDeadly(x + Guy.WIDTH/2, y) 
-            || main.currentMap.pixelDeadly(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
-            || main.currentMap.pixelDeadly(x + Guy.WIDTH/2, y - Guy.HEIGHT);
+		|| main.currentMap.pixelDeadly(x + Guy.WIDTH/2, y) 
+		|| main.currentMap.pixelDeadly(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
+		|| main.currentMap.pixelDeadly(x + Guy.WIDTH/2, y - Guy.HEIGHT);
 }
 
 Guy.prototype.checkFinish = function(x, y)
 {
 	return main.currentMap.pixelFinish(x - Guy.WIDTH/2, y) 
-            || main.currentMap.pixelFinish(x + Guy.WIDTH/2, y) 
-            || main.currentMap.pixelFinish(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
-            || main.currentMap.pixelFinish(x + Guy.WIDTH/2, y - Guy.HEIGHT);
+		|| main.currentMap.pixelFinish(x + Guy.WIDTH/2, y) 
+		|| main.currentMap.pixelFinish(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
+		|| main.currentMap.pixelFinish(x + Guy.WIDTH/2, y - Guy.HEIGHT);
 }
 
 Guy.prototype.checkInWall = function(x, y)
 {
     return main.currentMap.pixelInWall(x - Guy.WIDTH/2, y) 
-            || main.currentMap.pixelInWall(x + Guy.WIDTH/2, y) 
-            || main.currentMap.pixelInWall(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
-            || main.currentMap.pixelInWall(x + Guy.WIDTH/2, y - Guy.HEIGHT);
+		|| main.currentMap.pixelInWall(x + Guy.WIDTH/2, y) 
+		|| main.currentMap.pixelInWall(x - Guy.WIDTH/2, y - Guy.HEIGHT) 
+		|| main.currentMap.pixelInWall(x + Guy.WIDTH/2, y - Guy.HEIGHT);
 }
 
 Guy.prototype.checkOnWall = function(x, y)

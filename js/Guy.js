@@ -14,6 +14,8 @@ Guy = function (spawnX,spawnY, callback)
 	this.callback = callback;
 	
 	this.dead = false;
+	this.jumpReleased = true;
+	this.doubleJumped = false;
     
     this.hspeed=0.0;
     this.vspeed=0.0;
@@ -57,12 +59,30 @@ Guy.prototype.update = function(mult)
 			this.hspeed=-100;
 			this.scale={x:-1,y:1};
 		}
-		if(KeyHandler.getInstance().isPressed(KeyHandler.W) || KeyHandler.getInstance().isPressed(KeyHandler.UP))
+		
+		if(this.checkOnWall(this.x, this.y))
 		{
+			this.doubleJumped = false;
+		}
+		
+		if(this.jumpReleased && (KeyHandler.getInstance().isPressed(KeyHandler.W) || KeyHandler.getInstance().isPressed(KeyHandler.UP)))
+		{
+			this.jumpReleased = false;
 			if(this.checkOnWall(this.x, this.y))
 			{
 				this.vspeed=-350;
+				this.doubleJumped = false;
 			}
+			else if(!this.doubleJumped)
+			{
+				this.vspeed=-350;
+				this.doubleJumped = true;
+			}
+		}
+		
+		if(!this.jumpReleased && !(KeyHandler.getInstance().isPressed(KeyHandler.W) || KeyHandler.getInstance().isPressed(KeyHandler.UP)))
+		{
+			this.jumpReleased = true;
 		}
 	}
 	

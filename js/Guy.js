@@ -16,6 +16,8 @@ Guy = function (spawnX,spawnY, callback)
 	this.dead = false;
 	this.jumpReleased = true;
 	this.doubleJumped = false;
+	this.dashState = false;
+	this.dashDirection = "";
     
     this.hspeed=0.0;
     this.vspeed=0.0;
@@ -51,13 +53,63 @@ Guy.prototype.update = function(mult)
 	{
 		if(KeyHandler.getInstance().isPressed(KeyHandler.D) || KeyHandler.getInstance().isPressed(KeyHandler.RIGHT))
 		{
-			this.hspeed=100;
-			this.scale={x:1,y:1};
+			if(this.dashDirection == "left")
+			{
+				this.dashState = 0;
+			}
+			
+			if(this.dashState == 0 || this.dashState == 1)
+			{
+				this.hspeed=100;
+				this.scale={x:1,y:1};
+				
+				this.dashDirection = "right";
+				this.dashState = 1;
+			}
+			else if(this.dashState == 2 && this.dashDirection == "right")
+			{
+				this.dashDirection = "";
+				this.hspeed = 2500;
+				this.dashState = 3;
+			}
+			else if(this.dashState == 3)
+			{
+				this.hspeed=100;
+			}
 		}
-		if(KeyHandler.getInstance().isPressed(KeyHandler.A) || KeyHandler.getInstance().isPressed(KeyHandler.LEFT))
+		else if(KeyHandler.getInstance().isPressed(KeyHandler.A) || KeyHandler.getInstance().isPressed(KeyHandler.LEFT))
 		{
-			this.hspeed=-100;
-			this.scale={x:-1,y:1};
+			if(this.dashDirection == "right")
+			{
+				this.dashState = 0;
+			}
+			
+			if(this.dashState == 0 || this.dashState == 1)
+			{
+				this.hspeed=-100;
+				this.scale={x:-1,y:1};
+				
+				this.dashDirection = "left";
+				this.dashState = 1;
+			}
+			else if(this.dashState == 2 && this.dashDirection == "left")
+			{
+				this.dashDirection = "";
+				this.hspeed = -2500;
+				this.dashState = 3;
+			}
+			else if(this.dashState == 3)
+			{
+				this.hspeed=-100;
+			}
+		}
+		else if(this.dashState == 1)
+		{
+			this.dashState = 2;
+		}
+		else if(this.dashState == 3)
+		{
+			this.dashState = 0;
 		}
 		
 		if(this.checkOnWall(this.x, this.y))

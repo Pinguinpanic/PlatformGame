@@ -18,6 +18,7 @@ Guy = function (spawnX,spawnY, callback)
 	this.doubleJumped = false;
 	this.dashState = false;
 	this.dashDirection = "";
+	this.dashTimeout = null;
 	
 	this.count = 0;
 	
@@ -32,6 +33,7 @@ Guy.prototype = Object.create(PIXI.Sprite.prototype);
 
 Guy.WIDTH = 10;
 Guy.HEIGHT = 18;
+Guy.DASHTIMEOUT = 100;
 
 /**
  * The Guy's update loop.
@@ -74,8 +76,14 @@ Guy.prototype.update = function(mult)
 				this.hspeed = 2500;
 				this.dashState = 3;
 				this.counter++;
+				
+				if(this.dashTimeout != null)
+				{
+					clearTimeout(this.dashTimeout);
+					this.dashTimeout = null;
+				}
 			}
-			else if(this.dashState == 3)
+			else if(this.dashState == 3 && this.hspeed < 100)
 			{
 				this.hspeed=100;
 			}
@@ -101,8 +109,14 @@ Guy.prototype.update = function(mult)
 				this.hspeed = -2500;
 				this.dashState = 3;
 				this.counter++;
+				
+				if(this.dashTimeout != null)
+				{
+					clearTimeout(this.dashTimeout);
+					this.dashTimeout = null;
+				}
 			}
-			else if(this.dashState == 3)
+			else if(this.dashState == 3 && this.hspeed > -100)
 			{
 				this.hspeed=-100;
 			}
@@ -110,6 +124,13 @@ Guy.prototype.update = function(mult)
 		else if(this.dashState == 1)
 		{
 			this.dashState = 2;
+			if(this.dashTimeout == null)
+			{
+				this.dashTimeout = setTimeout(function() {
+					this.dashState = 0;
+					this.dashTimeout = null;
+				}.bind(this), Guy.DASHTIMEOUT);
+			}
 		}
 		else if(this.dashState == 3)
 		{

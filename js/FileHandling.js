@@ -27,7 +27,7 @@ FileHandling.loadMap=function(fileName,callBack)
 {
     FileHandling.loadFile("maps/"+fileName+".map",function(map){
         //PARSE MAP HERE
-        var lines = map.split("\n");
+        var lines = map.split(/[\r\n]+/g);
         var data=[];
 		
 		data.mapSize = lines[0].split(",");

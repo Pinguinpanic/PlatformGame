@@ -6,6 +6,7 @@ ExampleScene = function()
 
     FileHandling.loadMap("lvl1",function(map) {ExampleScene.map=map});
     this.loadResources();
+
 };
 
 ExampleScene.constructor = ExampleScene;
@@ -40,8 +41,11 @@ ExampleScene.prototype.doneLoading = function()
 	this.guy = new Guy(spawn[0] * 32 + 16, (spawn[1] + 1) * 32, this.guyCallback.bind(this));
     this.addDrawable(this.guy);
 
+    Camera.getInstance().setFocus(this);
+
     this.prevTime=Date.now();
     this.mainLoop();
+
 };
 
 ExampleScene.prototype.guyCallback = function(eventType, x, y)
@@ -81,6 +85,7 @@ ExampleScene.prototype.mainLoop = function()
         this.drawables[d].update(deltaTime);
     }
 
+    Camera.getInstance().update();
     Main.render();
 };
 

@@ -14,8 +14,8 @@ Main.getInstance = function()
 };
 
 
-Main.SCREENWIDTH=640;
-Main.SCREENHEIGHT=480;
+Main.SCREENWIDTH=400;
+Main.SCREENHEIGHT=300;
 
 Main.FPS=30;
 

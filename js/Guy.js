@@ -57,7 +57,17 @@ Guy.prototype.update = function(mult)
 		this.callback("finish", this.x, this.y);
 	}
 
+
     this.guyPhysics();
+
+    //Little magic number hocusp ocus for that smooth camera
+    var cam=Camera.getInstance();
+    cam.setViewPort(
+        (cam.viewPortX*4+this.x-Main.SCREENWIDTH/2)/5+this.hspeed*1.5,
+        (cam.viewPortY*4+this.y-Main.SCREENHEIGHT/2)/5+this.vspeed*1.5
+    );
+    cam.setAngle(((cam.angle*6- (.6*sign(this.hspeed)*Math.sqrt(Math.abs(this.hspeed))))/7)*-0.17);
+
 };
 Guy.prototype.guyPhysics = function()
 {

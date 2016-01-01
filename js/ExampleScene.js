@@ -4,7 +4,7 @@ ExampleScene = function()
 
     this.drawables=[];
 
-    FileHandling.loadMap("fun",function(map) {ExampleScene.map=map});
+    FileHandling.loadMap("lvl1",function(map) {ExampleScene.map=map});
     this.loadResources();
 };
 

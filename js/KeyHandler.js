@@ -8,6 +8,10 @@ function KeyHandler()
 
     this.keys={};
     this.keys[0]=false;
+
+    this.justKeyed={};
+    this.justKeyed[0]=false;
+
     this.lastKey=null;
 }
 
@@ -20,6 +24,8 @@ KeyHandler.UP = 38;
 KeyHandler.DOWN = 40;
 KeyHandler.LEFT = 37;
 KeyHandler.RIGHT = 39;
+
+KeyHandler.SPACE = 32;
 
 KeyHandler.instance=null;
 
@@ -37,6 +43,10 @@ KeyHandler.prototype.keyDownHandler = function(event)
     if(keysDeactivated)
     {
         return;
+    }
+    if(!this.isPressed(event.keyCode))
+    {
+        this.justKeyed[event.keyCode]=true;
     }
     this.keys[event.keyCode]=true;
     this.lastKey=event.keyCode;
@@ -65,6 +75,27 @@ KeyHandler.prototype.anyPressed = function()
         }
     }
     return false;
+};
+
+/**
+ * Check if a button has been "just pressed" meaning this is the first step the key went from pressed to unpressed. Use
+ * justReset every step to be fresh for catching new pressed.
+ * @param keyCode
+ * @returns {*}
+ */
+KeyHandler.prototype.justPressed = function(keyCode)
+{
+    if(this.justKeyed[keyCode]!=null)
+    {
+        return this.justKeyed[keyCode];
+    }
+    return false;
+};
+
+KeyHandler.prototype.justReset = function()
+{
+    this.justKeyed={};
+    this.justKeyed[0]=false;
 };
 
 //Disable spacebar.
